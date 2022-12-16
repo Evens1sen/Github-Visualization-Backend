@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/cs209_project
+    url: jdbc:mysql://localhost:3306/cs209
     username: root
-    password: MySQLroot
+    password: Maintank1314!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:

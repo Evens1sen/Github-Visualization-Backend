@@ -32,9 +32,3 @@ CREATE TABLE `releases`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
-
-
-
-
-
-

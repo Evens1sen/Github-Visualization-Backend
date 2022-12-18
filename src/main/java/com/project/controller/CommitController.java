@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -31,5 +34,18 @@ public class CommitController {
         List<Commit> commitList = commitService.list();
         return commitList.stream().map(Commit::getAuthor).distinct().count();
     }
+
+    @GetMapping("/mostActive")
+    public String mostActive() {
+        List<Commit> commitList = commitService.list();
+        Map<String, Long> developerMap = commitList.stream()
+                .collect(Collectors.groupingBy(
+                        Commit::getAuthor,
+                        Collectors.counting()
+                ));
+
+        return developerMap.entrySet().stream().max(Map.Entry.comparingByValue()).get().getKey();
+    }
+
 }
 

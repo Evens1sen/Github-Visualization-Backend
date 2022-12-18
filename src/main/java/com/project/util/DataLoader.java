@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
@@ -162,9 +163,11 @@ public class DataLoader {
                 }
                 if (updatedAt != null) {
                     issue.setUpdatedAt(LocalDateTime.parse(updatedAt));
+                    issue.setIssueTime(Duration.between(issue.getCreatedAt(), issue.getUpdatedAt()).toSeconds());
                 }
                 if (closedAt != null) {
                     issue.setClosedAt(LocalDateTime.parse(closedAt));
+                    issue.setIssueTime(Duration.between(issue.getCreatedAt(), issue.getClosedAt()).toSeconds());
                 }
 
                 issueService.save(issue);

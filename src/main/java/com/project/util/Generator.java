@@ -1,4 +1,4 @@
-package com.project;
+package com.project.util;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;

@@ -15,11 +15,11 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author ${author}
- * @since 2022-12-16
+ * @since 2022-12-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Release implements Serializable {
+public class Releases implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

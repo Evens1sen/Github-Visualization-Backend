@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author ${author}
- * @since 2022-12-16
+ * @since 2022-12-19
  */
 @Controller
-@RequestMapping("//release")
-public class ReleaseController {
+@RequestMapping("//releases")
+public class ReleasesController {
 
 }
 

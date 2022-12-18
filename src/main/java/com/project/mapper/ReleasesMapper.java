@@ -1,6 +1,6 @@
 package com.project.mapper;
 
-import com.project.entity.Release;
+import com.project.entity.Releases;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author ${author}
- * @since 2022-12-16
+ * @since 2022-12-19
  */
-public interface ReleaseMapper extends BaseMapper<Release> {
+public interface ReleasesMapper extends BaseMapper<Releases> {
 
 }

@@ -1,6 +1,6 @@
 package com.project.service;
 
-import com.project.entity.Release;
+import com.project.entity.Releases;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author ${author}
- * @since 2022-12-16
+ * @since 2022-12-19
  */
-public interface ReleaseService extends IService<Release> {
+public interface ReleasesService extends IService<Releases> {
 
 }

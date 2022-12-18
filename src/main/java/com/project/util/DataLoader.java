@@ -1,5 +1,6 @@
 package com.project.util;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.project.entity.Commit;
@@ -49,8 +50,13 @@ public class DataLoader {
     }
 
     public static void main(String[] args) {
-        String user = "Evens1sen";
-        String repo = "Leetcode";
+
+    }
+
+    public static void loadData(String user, String repo) {
+        loadCommit(user, repo);
+        loadIssue(user, repo);
+        loadRelease(user, repo);
     }
 
     private static String request(String target) {
@@ -95,7 +101,9 @@ public class DataLoader {
         return responseContent.toString();
     }
 
-    public static void loadCommit(String user, String repo) {
+    private static void loadCommit(String user, String repo) {
+        commitService.remove(new QueryWrapper<>());
+
         int pageNum = 1;
         String response = "";
         while (true) {
@@ -121,7 +129,9 @@ public class DataLoader {
         }
     }
 
-    public static void loadIssue(String user, String repo) {
+    private static void loadIssue(String user, String repo) {
+        issueService.remove(new QueryWrapper<>());
+
         int pageNum = 1;
         String response = "";
         while (true) {
@@ -168,7 +178,9 @@ public class DataLoader {
         }
     }
 
-    public static void loadRelease(String user, String repo) {
+    private static void loadRelease(String user, String repo) {
+        releasesService.remove(new QueryWrapper<>());
+
         int pageNum = 1;
         String response = "";
         while (true) {

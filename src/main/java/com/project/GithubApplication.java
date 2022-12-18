@@ -11,11 +11,6 @@ public class GithubApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GithubApplication.class, args);
-        String user = "PKUFlyingPig";
-        String repo = "cs-self-learning";
-        DataLoader.loadCommit(user, repo);
-        DataLoader.loadIssue(user, repo);
-        DataLoader.loadRelease(user, repo);
     }
 
 }

@@ -4,6 +4,7 @@ package com.project.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @author ${author}
  * @since 2022-12-19
  */
-@Controller
+@RestController
 @RequestMapping("//releases")
 public class ReleasesController {
 

@@ -4,11 +4,12 @@ package com.project.controller;
 import com.project.entity.Commit;
 import com.project.service.CommitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,19 +19,17 @@ import org.springframework.stereotype.Controller;
  * @author ${author}
  * @since 2022-12-16
  */
-@Controller
+@RestController
 @RequestMapping("//commit")
 public class CommitController {
 
     @Autowired
     private CommitService commitService;
 
-    @PostMapping("/addCommit/{sha}/{author}")
-    public boolean addCommit(@PathVariable String sha, @PathVariable String author) {
-        Commit commit = new Commit();
-        commit.setSha(sha);
-        commit.setAuthor(author);
-        return commitService.save(commit);
+    @GetMapping("/developerCount")
+    public Long developerCount() {
+        List<Commit> commitList = commitService.list();
+        return commitList.stream().map(Commit::getAuthor).distinct().count();
     }
 }
 

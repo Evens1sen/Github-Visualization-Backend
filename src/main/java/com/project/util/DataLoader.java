@@ -49,10 +49,6 @@ public class DataLoader {
         DataLoader.releasesService = releasesService;
     }
 
-    public static void main(String[] args) {
-
-    }
-
     public static void loadData(String user, String repo) {
         loadCommit(user, repo);
         loadIssue(user, repo);

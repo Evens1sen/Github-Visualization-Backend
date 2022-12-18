@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping("//issue")
 public class IssueController {
     @Autowired
-    IssueService issueService;
+    private IssueService issueService;
 
     @GetMapping("/issueCount")
     public String issueCount(){

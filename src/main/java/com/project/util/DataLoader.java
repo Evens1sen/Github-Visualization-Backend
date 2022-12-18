@@ -115,10 +115,12 @@ public class DataLoader {
             for (int i = 0; i < res.size(); i++) {
                 String sha = String.valueOf(res.get(i).getAsJsonObject().get("sha")).substring(0, 8);
                 String author = String.valueOf(res.get(i).getAsJsonObject().get("commit").getAsJsonObject().get("author").getAsJsonObject().get("name"));
-
+                String createdAt = String.valueOf(res.get(i).getAsJsonObject().get("commit").getAsJsonObject().get("author").getAsJsonObject().get("date"));
+                createdAt = createdAt.equals("null") ? null : createdAt.substring(1, createdAt.length() - 2);
                 Commit commit = new Commit();
                 commit.setSha(sha);
                 commit.setAuthor(author);
+                commit.setCreatedAt(LocalDateTime.parse(createdAt));
                 commitService.save(commit);
             }
 

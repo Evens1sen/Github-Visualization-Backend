@@ -147,16 +147,19 @@ public class DataLoader {
                 String createdAt = String.valueOf(res.get(i).getAsJsonObject().get("created_at"));
                 String updatedAt = String.valueOf(res.get(i).getAsJsonObject().get("updated_at"));
                 String closedAt = String.valueOf(res.get(i).getAsJsonObject().get("closed_at"));
+                String title = String.valueOf(res.get(i).getAsJsonObject().get("title"));
 
                 state = state.substring(1, state.length() - 1);
                 createdAt = createdAt.equals("null") ? null : createdAt.substring(1, createdAt.length() - 2);
                 updatedAt = updatedAt.equals("null") ? null : updatedAt.substring(1, updatedAt.length() - 2);
                 closedAt = closedAt.equals("null") ? null : closedAt.substring(1, closedAt.length() - 2);
+                title = title.equals("null") ? null : title.substring(1, title.length() - 2);
 
                 System.out.println(state);
                 System.out.println(createdAt);
                 System.out.println(updatedAt);
                 System.out.println(closedAt);
+                System.out.println(title);
 
                 Issue issue = new Issue();
                 issue.setState(state);
@@ -170,6 +173,9 @@ public class DataLoader {
                 if (closedAt != null) {
                     issue.setClosedAt(LocalDateTime.parse(closedAt));
                     issue.setIssueTime(Math.toIntExact(Duration.between(issue.getCreatedAt(), issue.getClosedAt()).toSeconds()));
+                }
+                if (title != null) {
+                    issue.setTitle(title);
                 }
 
                 issueService.save(issue);

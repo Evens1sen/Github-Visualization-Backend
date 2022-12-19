@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
@@ -104,9 +105,19 @@ public class IssueController {
         return issueService.list(new QueryWrapper<Issue>().eq("state", "open")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getAverage();
     }
 
-    @GetMapping("varOpenTime")
+    @GetMapping("/varOpenTime")
     public double varOpenTime() {
         return variance(issueService.list(new QueryWrapper<Issue>().eq("state", "open")), avgTime());
+    }
+
+    @GetMapping("/findIssueById")
+    public Issue findIssueById(@RequestParam int id) {
+        return issueService.getOne(new QueryWrapper<Issue>().eq("issue_id", id));
+    }
+
+    @GetMapping("/findTitleById")
+    public String findTitleById(@RequestParam int id) {
+        return findIssueById(id).getTitle();
     }
 }
 

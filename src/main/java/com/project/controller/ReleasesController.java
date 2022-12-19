@@ -60,7 +60,7 @@ public class ReleasesController {
 
     @GetMapping("/releasesCommit/findById")
     public int commitNum(@RequestParam int id) {
-       return commitCount().get(id-1);
+        return commitCount().get(id - 1);
     }
 
     @GetMapping("/commitTime")
@@ -85,32 +85,32 @@ public class ReleasesController {
     }
 
     @GetMapping("/commitTime/weekday")
-    public Long commitWeekday(){
+    public Long commitWeekday() {
         return commitTime().get(0);
     }
 
     @GetMapping("/commitTime/weekend")
-    public Long commitWeekend(){
+    public Long commitWeekend() {
         return commitTime().get(1);
     }
 
     @GetMapping("/commitTime/midnight")
-    public Long commitMidnight(){
+    public Long commitMidnight() {
         return commitTime().get(2);
     }
 
     @GetMapping("/commitTime/morning")
-    public Long commitMorning(){
+    public Long commitMorning() {
         return commitTime().get(3);
     }
 
     @GetMapping("/commitTime/afternoon")
-    public Long commitAfternoon(){
+    public Long commitAfternoon() {
         return commitTime().get(4);
     }
 
     @GetMapping("/commitTime/evening")
-    public Long commitEvening(){
+    public Long commitEvening() {
         return commitTime().get(5);
     }
 

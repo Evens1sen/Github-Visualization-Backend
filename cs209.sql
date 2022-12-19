@@ -19,6 +19,7 @@ CREATE TABLE `issue`
     updated_at DATETIME,
     closed_at  DATETIME,
     issue_time int,
+    title      varchar(255),
     PRIMARY KEY (issue_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1

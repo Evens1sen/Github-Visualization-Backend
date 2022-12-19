@@ -32,17 +32,16 @@ public class ReleasesController {
     private CommitService commitService;
 
     @GetMapping("releasesCount")
-    public String releasesCount() {
-        List<Releases> releasesList = releasesService.list();
-        return "All issue count is " + releasesList.stream().count();
+    public int releasesCount() {
+        return releasesService.list().size();
     }
 
     @GetMapping("releasesCommit")
-    public String commitCount() {
+    public List<Integer> commitCount() {
         List<Releases> releasesList = releasesService.list();
         List<Commit> commitList = commitService.list();
-        List<List<Commit>> ans = new ArrayList<>();
-        List<Commit> tmp = new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
+        List<Commit> tmp;
         if (releasesList.size() != 0) {
             for (int i = 0; i < releasesList.size(); i++) {
                 if (i == 0) {
@@ -51,39 +50,31 @@ public class ReleasesController {
                     int finalI = i;
                     tmp = commitList.stream().filter(s -> s.getCreatedAt().isBefore(releasesList.get(finalI).getPublishedAt())).filter(s -> s.getCreatedAt().isAfter(releasesList.get(finalI - 1).getPublishedAt())).collect(Collectors.toList());
                 }
-                ans.add(tmp);
+                ans.add(tmp.size());
             }
         }
-        String res = "";
-        if (ans.size() != 0) {
-            for (int i = 0; i < ans.size(); i++) {
-                res += "Releases " + String.valueOf(i + 1) + " have " + ans.get(i).size() + " issues.\n";
-            }
-        }
-        return res;
+        return ans;
     }
 
     @GetMapping("commitTime")
-    public String commitTime() {
+    public List<Long> commitTime() {
         List<Commit> commitList = commitService.list();
-        //SUNDAY SATURDAY
         long count_weekend = commitList.stream().filter(s -> String.valueOf(s.getCreatedAt().getDayOfWeek()).equals("SUNDAY")).count() +
                 commitList.stream().filter(s -> String.valueOf(s.getCreatedAt().getDayOfWeek()).equals("SATURDAY")).count();
         long count_weekday = commitList.size() - count_weekend;
-        long count_morning = commitList.stream().filter(s -> s.getCreatedAt().getHour() < 12).count() - commitList.stream().filter(s -> s.getCreatedAt().getHour() < 7).count();
+        long count_morning = commitList.stream().filter(s -> s.getCreatedAt().getHour() < 12).count() - commitList.stream().filter(s -> s.getCreatedAt().getHour() < 6).count();
         long count_afternoon = commitList.stream().filter(s -> s.getCreatedAt().getHour() < 18).count() - commitList.stream().filter(s -> s.getCreatedAt().getHour() < 12).count();
         long count_evening = commitList.size() - commitList.stream().filter(s -> s.getCreatedAt().getHour() < 18).count();
-        long count_midnight = commitList.stream().filter(s -> s.getCreatedAt().getHour() < 7).count();
-
-
-        return "In weekday developments made commits: " + count_weekday
-                + ". In weekend developments made commits: " + count_weekend
-                + ". In 0-7 developments made commits: " + count_midnight
-                + ". In 7-12 developments made commits: " + count_morning
-                + ". In 12-18 developments made commits: " + count_afternoon
-                + ". In 18-24 developments made commits: " + count_evening;
+        long count_midnight = commitList.stream().filter(s -> s.getCreatedAt().getHour() < 6).count();
+        List<Long> ans = new ArrayList<>() {{
+            add(count_weekday); // Monday ~ Friday
+            add(count_weekend); // Saturday ~ Sunday
+            add(count_midnight); // 0-6
+            add(count_morning);  // 6-12
+            add(count_afternoon); // 12-18
+            add(count_evening); // 18-24
+        }};
+        return ans;
     }
-
-
 }
 

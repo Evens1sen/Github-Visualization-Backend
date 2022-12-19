@@ -11,10 +11,7 @@ public class GithubApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GithubApplication.class, args);
-//        DataLoader dataLoader = new DataLoader();
-//        dataLoader.loadData("PKUFlyingPig","cs-self-learning");
-
-
+        DataLoader.loadData("PKUFlyingPig", "cs-self-learning");
     }
 
 }

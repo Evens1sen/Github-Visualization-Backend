@@ -1,6 +1,7 @@
 package com.project.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.project.entity.Issue;
 import com.project.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class IssueController {
     private IssueService issueService;
 
     @GetMapping("/issueCount")
-    public String issueCount(){
+    public String issueCount() {
         List<Issue> issueList = issueService.list();
         String allCount = String.valueOf(issueList.stream().map(Issue::getState).count());
         String openCount = String.valueOf(issueList.stream().map(Issue::getState).filter(s -> s.equals("open")).count());
@@ -38,17 +39,17 @@ public class IssueController {
     }
 
     @GetMapping("issueTime")
-    public String issueTime(){
+    public String issueTime() {
         List<Issue> issueList = issueService.list();
-        List<Issue> closedList = issueList.stream().filter(s->s.getState().equals("closed")).collect(Collectors.toList());
-        List<Issue> openList = issueList.stream().filter(s->s.getState().equals("open")).collect(Collectors.toList());
+        List<Issue> closedList = issueList.stream().filter(s -> s.getState().equals("closed")).collect(Collectors.toList());
+        List<Issue> openList = issueList.stream().filter(s -> s.getState().equals("open")).collect(Collectors.toList());
         LongSummaryStatistics close_summary = closedList.stream().map(Issue::getIssueTime).mapToLong(x -> x).summaryStatistics();
         LongSummaryStatistics open_summary = openList.stream().map(Issue::getIssueTime).mapToLong(x -> x).summaryStatistics();
         LongSummaryStatistics issue_summary = issueList.stream().map(Issue::getIssueTime).mapToLong(x -> x).summaryStatistics();
-        String ans1 = "All Issues: The max time:"+issue_summary.getMax() +"s. The min time:"+ issue_summary.getMin() +"s. The average time:"+issue_summary.getAverage()+"s.\n";
-        String ans2 = "The open Issues: The max time:"+open_summary.getMax() +"s. The min time:"+ open_summary.getMin() +"s. The average time:"+open_summary.getAverage()+"s.\n";
-        String ans3 = "The Closed Issued: The max time:"+close_summary.getMax() +"s. The min time:"+ close_summary.getMin() +"s. The average time:"+close_summary.getAverage()+"s.\n";
-        return ans1+ans2+ans3;
+        String ans1 = "All Issues: The max time:" + issue_summary.getMax() + "s. The min time:" + issue_summary.getMin() + "s. The average time:" + issue_summary.getAverage() + "s.\n";
+        String ans2 = "The open Issues: The max time:" + open_summary.getMax() + "s. The min time:" + open_summary.getMin() + "s. The average time:" + open_summary.getAverage() + "s.\n";
+        String ans3 = "The Closed Issued: The max time:" + close_summary.getMax() + "s. The min time:" + close_summary.getMin() + "s. The average time:" + close_summary.getAverage() + "s.\n";
+        return ans1 + ans2 + ans3;
     }
 }
 

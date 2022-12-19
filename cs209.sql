@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS `commit`;
 CREATE TABLE `commit`
 (
-    commit_id int          NOT NULL AUTO_INCREMENT,
-    sha       varchar(11)  NOT NULL,
-    author    varchar(300) NOT NULL,
-    created_at DATETIME    NOT NULL,
+    commit_id  int          NOT NULL AUTO_INCREMENT,
+    sha        varchar(11)  NOT NULL,
+    author     varchar(300) NOT NULL,
+    created_at DATETIME     NOT NULL,
     PRIMARY KEY (commit_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1

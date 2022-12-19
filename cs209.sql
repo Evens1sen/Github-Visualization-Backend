@@ -18,7 +18,7 @@ CREATE TABLE `issue`
     created_at DATETIME    NOT NULL,
     updated_at DATETIME,
     closed_at  DATETIME,
-    issue_time LONG,
+    issue_time int,
     PRIMARY KEY (issue_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1

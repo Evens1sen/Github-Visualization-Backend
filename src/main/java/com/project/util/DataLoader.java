@@ -165,11 +165,11 @@ public class DataLoader {
                 }
                 if (updatedAt != null) {
                     issue.setUpdatedAt(LocalDateTime.parse(updatedAt));
-                    issue.setIssueTime(Duration.between(issue.getCreatedAt(), issue.getUpdatedAt()).toSeconds());
+                    issue.setIssueTime(Math.toIntExact(Duration.between(issue.getCreatedAt(), issue.getUpdatedAt()).toSeconds()));
                 }
                 if (closedAt != null) {
                     issue.setClosedAt(LocalDateTime.parse(closedAt));
-                    issue.setIssueTime(Duration.between(issue.getCreatedAt(), issue.getClosedAt()).toSeconds());
+                    issue.setIssueTime(Math.toIntExact(Duration.between(issue.getCreatedAt(), issue.getClosedAt()).toSeconds()));
                 }
 
                 issueService.save(issue);

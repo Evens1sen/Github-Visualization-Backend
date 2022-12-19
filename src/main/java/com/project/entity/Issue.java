@@ -33,5 +33,5 @@ public class Issue implements Serializable {
 
     private LocalDateTime closedAt;
 
-    private Long issueTime;
+    private Integer issueTime;
 }

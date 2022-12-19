@@ -1,6 +1,7 @@
 package com.project.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.project.entity.Issue;
 import com.project.service.IssueService;
@@ -29,27 +30,83 @@ public class IssueController {
     @Autowired
     private IssueService issueService;
 
-    @GetMapping("/issueCount")
-    public String issueCount() {
-        List<Issue> issueList = issueService.list();
-        String allCount = String.valueOf(issueList.stream().map(Issue::getState).count());
-        String openCount = String.valueOf(issueList.stream().map(Issue::getState).filter(s -> s.equals("open")).count());
-        String closedCount = String.valueOf(issueList.stream().map(Issue::getState).filter(s -> s.equals("closed")).count());
-        return "All issue count is " + allCount + "\nOpen issue count is " + openCount + "\nClose issue count is " + closedCount;
+    private double variance(List<Issue> issueList,double mean){
+        double ans = 0;
+        for (Issue i : issueList){
+            ans+=Math.pow(i.getIssueTime() - mean,2);
+        }
+        ans /= issueList.size();
+        return ans;
     }
 
-    @GetMapping("issueTime")
-    public String issueTime() {
-        List<Issue> issueList = issueService.list();
-        List<Issue> closedList = issueList.stream().filter(s -> s.getState().equals("closed")).collect(Collectors.toList());
-        List<Issue> openList = issueList.stream().filter(s -> s.getState().equals("open")).collect(Collectors.toList());
-        LongSummaryStatistics close_summary = closedList.stream().map(Issue::getIssueTime).mapToLong(x -> x).summaryStatistics();
-        LongSummaryStatistics open_summary = openList.stream().map(Issue::getIssueTime).mapToLong(x -> x).summaryStatistics();
-        LongSummaryStatistics issue_summary = issueList.stream().map(Issue::getIssueTime).mapToLong(x -> x).summaryStatistics();
-        String ans1 = "All Issues: The max time:" + issue_summary.getMax() + "s. The min time:" + issue_summary.getMin() + "s. The average time:" + issue_summary.getAverage() + "s.\n";
-        String ans2 = "The open Issues: The max time:" + open_summary.getMax() + "s. The min time:" + open_summary.getMin() + "s. The average time:" + open_summary.getAverage() + "s.\n";
-        String ans3 = "The Closed Issued: The max time:" + close_summary.getMax() + "s. The min time:" + close_summary.getMin() + "s. The average time:" + close_summary.getAverage() + "s.\n";
-        return ans1 + ans2 + ans3;
+    @GetMapping("/openCount")
+    public long openCount(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","open")).size();
+    }
+
+    @GetMapping("/closedCount")
+    public long closedCount(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","closed")).size();
+    }
+
+    @GetMapping("/maxTime")
+    public long maxTime(){
+        return issueService.list().stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMax();
+    }
+
+    @GetMapping("/minTime")
+    public long minTime(){
+        return issueService.list().stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMin();
+    }
+
+    @GetMapping("/avgTime")
+    public double avgTime(){
+        return issueService.list().stream().mapToLong(Issue::getIssueTime).summaryStatistics().getAverage();
+    }
+
+    @GetMapping("varTime")
+    public double varTime(){
+        return variance(issueService.list(),avgTime());
+    }
+
+    @GetMapping("/maxClosedTime")
+    public long maxClosedTime(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","closed")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMax();
+    }
+
+    @GetMapping("/minClosedTime")
+    public long minClosedTime(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","closed")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMin();
+    }
+
+    @GetMapping("/avgClosedTime")
+    public double avgClosedTime(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","closed")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getAverage();
+    }
+
+    @GetMapping("varClosedTime")
+    public double varClosedTime(){
+        return variance(issueService.list(new QueryWrapper<Issue>().eq("state","closed")), avgTime());
+    }
+
+    @GetMapping("/maxOpenTime")
+    public long maxOpenTime(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","open")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMax();
+    }
+
+    @GetMapping("/minOpenTime")
+    public long minOpenTime(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","open")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMin();
+    }
+
+    @GetMapping("/avgOpenTime")
+    public double avgOpenTime(){
+        return issueService.list(new QueryWrapper<Issue>().eq("state","open")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getAverage();
+    }
+
+    @GetMapping("varOpenTime")
+    public double varOpenTime(){
+        return variance(issueService.list(new QueryWrapper<Issue>().eq("state","open")), avgTime());
     }
 }
 

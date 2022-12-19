@@ -1,12 +1,12 @@
-### CS209 Report
+## CS209 Report
 
 **Group Members:** 11912919 马浩原，11912725 周民涛
 
-#### Overview
+### Overview
 
 In this project, we choose the open-source repository `cs-self-learning` on GitHub to do analysis. (https://github.com/PKUFlyingPig/cs-self-learning). With many prestigious schools in Europe and the United States making their computer courses of the highest quality open source, self-learning CS has become a highly actionable thing. This repository contains some world-renowned CS courses in great academics and the corresponding course materials for self learning, which is of great significance to our study in computer science.
 
-#### Design
+### Design
 
 In order to construct an application to manage and visualize the data in the GitHub repo. We use the front-end and back-end separation design. The backend is based on Springboot, MyBatis-Plus, MySQL to retrieve and manage the data and offer RESTful API to access the data in and related results in the database. The structure of the backend design is shown below.
 
@@ -53,6 +53,6 @@ public class DataLoader {
 }
 ```
 
-#### Insight
+### Insight
 
 To be continued...

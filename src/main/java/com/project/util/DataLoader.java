@@ -157,9 +157,6 @@ public class DataLoader {
                 closedAt = closedAt.equals("null") ? null : closedAt.substring(1, closedAt.length() - 2);
                 title = title.equals("null") ? null : title.substring(1, title.length() - 2);
                 body = body.equals("null") ? null : body.substring(1, body.length() - 2);
-                if(body.length()>50){
-                    body = body.substring(1,50);
-                }
 
                 System.out.println(state);
                 System.out.println(createdAt);
@@ -181,6 +178,9 @@ public class DataLoader {
                 }
                 issue.setTitle(title);
                 if (body != null) {
+                    if(body.length()>50){
+                        body = body.substring(1,50);
+                    }
                     issue.setBody(body);
                 }
 

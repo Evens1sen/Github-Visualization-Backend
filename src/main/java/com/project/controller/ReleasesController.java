@@ -6,10 +6,12 @@ import com.project.entity.Releases;
 import com.project.service.CommitService;
 import com.project.service.ReleasesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -31,12 +33,12 @@ public class ReleasesController {
     @Autowired
     private CommitService commitService;
 
-    @GetMapping("releasesCount")
+    @GetMapping("/releasesCount")
     public int releasesCount() {
         return releasesService.list().size();
     }
 
-    @GetMapping("releasesCommit")
+    @GetMapping("/releasesCommit")
     public List<Integer> commitCount() {
         List<Releases> releasesList = releasesService.list();
         List<Commit> commitList = commitService.list();
@@ -56,7 +58,12 @@ public class ReleasesController {
         return ans;
     }
 
-    @GetMapping("commitTime")
+    @GetMapping("/releasesCommit/findById")
+    public int commitNum(@RequestParam int id) {
+       return commitCount().get(id-1);
+    }
+
+    @GetMapping("/commitTime")
     public List<Long> commitTime() {
         List<Commit> commitList = commitService.list();
         long count_weekend = commitList.stream().filter(s -> String.valueOf(s.getCreatedAt().getDayOfWeek()).equals("SUNDAY")).count() +
@@ -76,5 +83,36 @@ public class ReleasesController {
         }};
         return ans;
     }
+
+    @GetMapping("/commitTime/weekday")
+    public Long commitWeekday(){
+        return commitTime().get(0);
+    }
+
+    @GetMapping("/commitTime/weekend")
+    public Long commitWeekend(){
+        return commitTime().get(1);
+    }
+
+    @GetMapping("/commitTime/midnight")
+    public Long commitMidnight(){
+        return commitTime().get(2);
+    }
+
+    @GetMapping("/commitTime/morning")
+    public Long commitMorning(){
+        return commitTime().get(3);
+    }
+
+    @GetMapping("/commitTime/afternoon")
+    public Long commitAfternoon(){
+        return commitTime().get(4);
+    }
+
+    @GetMapping("/commitTime/evening")
+    public Long commitEvening(){
+        return commitTime().get(5);
+    }
+
 }
 

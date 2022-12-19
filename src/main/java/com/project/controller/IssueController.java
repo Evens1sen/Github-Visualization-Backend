@@ -119,5 +119,10 @@ public class IssueController {
     public String findTitleById(@RequestParam int id) {
         return findIssueById(id).getTitle();
     }
+
+    @GetMapping("/findBodyById")
+    public String findBodyById(@RequestParam int id) {
+        return findIssueById(id).getBody();
+    }
 }
 

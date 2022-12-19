@@ -36,4 +36,7 @@ public class Issue implements Serializable {
     private Integer issueTime;
 
     private String title;
+
+    private String body;
+
 }

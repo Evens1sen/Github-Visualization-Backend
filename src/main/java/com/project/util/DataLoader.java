@@ -3,6 +3,7 @@ package com.project.util;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.project.entity.Commit;
 import com.project.entity.Issue;
 import com.project.entity.Releases;
@@ -148,18 +149,19 @@ public class DataLoader {
                 String updatedAt = String.valueOf(res.get(i).getAsJsonObject().get("updated_at"));
                 String closedAt = String.valueOf(res.get(i).getAsJsonObject().get("closed_at"));
                 String title = String.valueOf(res.get(i).getAsJsonObject().get("title"));
+                String body = String.valueOf(res.get(i).getAsJsonObject().get("body"));
 
                 state = state.substring(1, state.length() - 1);
                 createdAt = createdAt.equals("null") ? null : createdAt.substring(1, createdAt.length() - 2);
                 updatedAt = updatedAt.equals("null") ? null : updatedAt.substring(1, updatedAt.length() - 2);
                 closedAt = closedAt.equals("null") ? null : closedAt.substring(1, closedAt.length() - 2);
                 title = title.equals("null") ? null : title.substring(1, title.length() - 2);
+                body = body.equals("null") ? null : body.substring(1, body.length() - 2);
 
                 System.out.println(state);
                 System.out.println(createdAt);
                 System.out.println(updatedAt);
                 System.out.println(closedAt);
-                System.out.println(title);
 
                 Issue issue = new Issue();
                 issue.setState(state);
@@ -174,8 +176,9 @@ public class DataLoader {
                     issue.setClosedAt(LocalDateTime.parse(closedAt));
                     issue.setIssueTime(Math.toIntExact(Duration.between(issue.getCreatedAt(), issue.getClosedAt()).toSeconds()));
                 }
-                if (title != null) {
-                    issue.setTitle(title);
+                issue.setTitle(title);
+                if (body != null) {
+                    issue.setBody(body);
                 }
 
                 issueService.save(issue);

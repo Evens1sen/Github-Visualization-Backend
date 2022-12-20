@@ -60,6 +60,19 @@ public class ReleasesController {
         return commitCount().get(id - 1);
     }
 
+    @GetMapping("releasesInterval")
+    public List<ChartVO> releasesInterval() {
+        List<ChartVO> res = new ArrayList<>();
+        List<Integer> commitList = commitCount();
+
+        int releaseNum = releasesService.count();
+        for (int i = 1; i <= releaseNum; i++) {
+            res.add(new ChartVO(String.format("%d-%d", i - 1, i), Long.valueOf(commitList.get(i - 1))));
+        }
+
+        return res;
+    }
+
     @GetMapping("/commitTime")
     public List<Long> commitTime() {
         List<Commit> commitList = commitService.list();

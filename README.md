@@ -22,7 +22,7 @@ Database (MySQL) - Entity (POJO mapped with database)
 
 To manage the data, we create three table: commit, issue, releases, and the corresponding entity class, mapper, service and controller. The table are shown below.
 
-<img src="https://github.com/Evens1sen/Github-Visualization/blob/main/tables.png" alt="image-20221219164339217" style="zoom:50%;" />
+<img decoding="async" src="https://github.com/Evens1sen/Github-Visualization/blob/main/cs209_table.png" style="zoom:50%;" />
 
 In addition, in the beginning, we need to retrieve data from GitHub RESTful API, parse it and store it into our database for analysis. The class `DataLoader` is for data fetching and is shown below.
 

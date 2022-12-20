@@ -1,17 +1,17 @@
 package com.project.controller;
 
-
 import com.project.entity.Commit;
 import com.project.entity.Releases;
 import com.project.service.CommitService;
 import com.project.service.ReleasesService;
 import com.project.vo.ChartVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+
 
 /**
  * <p>

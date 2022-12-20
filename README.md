@@ -53,6 +53,27 @@ public class DataLoader {
 }
 ```
 
+### Deployment
+
+After completing all the backend interfaces, we will scan the swagger.html collection to generate all the interfaces for the frontend to call. We upload our java project files to the server as a .jar package via meavn jar for public testing.
+
+Our server configuration is as follows.
+
+```
+Manufacturer: Alibaba Cloud
+Product Name: Alibaba Cloud ECS
+Distributor ID: Ubuntu
+Description: Ubuntu 22.04.1 LTS
+ip address: 119.23.110.145
+2 vCPUs, 4GiB
+Device Start End Sectors Size Type
+/dev/vda1 2048 4095 2048 1M BIOS boot
+/dev/vda2 4096 413695 409600 200M EFI System
+/dev/vda3 413696 83886046 83472351 39.8G Linux filesystem
+```
+
+Install the java environment on the server, configure the data on the server, hang it in the background by means of nohub java -jar app.jar, and access the interface provided by the backend through the public ip address so that we can use the frontend for data presentation and analysis
+
 ### Insight
 
 To be continued...

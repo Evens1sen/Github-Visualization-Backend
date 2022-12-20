@@ -191,7 +191,6 @@ public class IssueController {
     }
 
     public List<ChartVO> topKFrequent(List<String> words, int k) {
-//        List<String> result = new LinkedList<>();
         List<ChartVO> result = new ArrayList<>();
         Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < words.size(); i++) {

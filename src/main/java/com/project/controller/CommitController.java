@@ -3,7 +3,7 @@ package com.project.controller;
 
 import com.project.entity.Commit;
 import com.project.service.CommitService;
-import com.project.vo.ActiveVO;
+import com.project.vo.ChartVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +48,7 @@ public class CommitController {
     }
 
     @GetMapping("topKActice/{k}")
-    public List<ActiveVO> topKActive(@PathVariable int k) {
+    public List<ChartVO> topKActive(@PathVariable int k) {
         List<Commit> commitList = commitService.list();
         Map<String, Long> developerMap = commitList.stream()
                 .collect(Collectors.groupingBy(
@@ -59,7 +59,7 @@ public class CommitController {
         return developerMap.entrySet().stream()
                 .sorted((o1, o2) -> Long.compare(o2.getValue(), o1.getValue()))
                 .limit(5)
-                .map(e -> new ActiveVO(e.getKey(), e.getValue()))
+                .map(e -> new ChartVO(e.getKey(), e.getValue()))
                 .toList();
     }
 

@@ -4,6 +4,7 @@ package com.project.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.project.entity.Issue;
 import com.project.service.IssueService;
+import com.project.vo.ChartVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -159,7 +160,7 @@ public class IssueController {
     }
 
     @GetMapping("/findHighFreqTitle")
-    public List<String> findHighFreqTitle() {
+    public List<ChartVO> findHighFreqTitle() {
         List<String> titleList = findTitle();
         List<String> wordList = new ArrayList<>();
         for (String i : titleList) {
@@ -168,7 +169,7 @@ public class IssueController {
                 wordList.addAll(Arrays.asList(arr));
             }
         }
-        return topKFrequent(wordList, 20);
+        return topKFrequent(wordList, 10);
     }
 
     @GetMapping("/findBody")
@@ -177,7 +178,7 @@ public class IssueController {
     }
 
     @GetMapping("/findHighFreqBody")
-    public List<String> findHighFreqBody() {
+    public List<ChartVO> findHighFreqBody() {
         List<String> bodyList = findBody();
         List<String> wordList = new ArrayList<>();
         for (String i : bodyList) {
@@ -186,12 +187,12 @@ public class IssueController {
                 wordList.addAll(Arrays.asList(arr));
             }
         }
-        return topKFrequent(wordList, 20);
+        return topKFrequent(wordList, 5);
     }
 
-
-    public List<String> topKFrequent(List<String> words, int k) {
-        List<String> result = new LinkedList<>();
+    public List<ChartVO> topKFrequent(List<String> words, int k) {
+//        List<String> result = new LinkedList<>();
+        List<ChartVO> result = new ArrayList<>();
         Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < words.size(); i++) {
             if (map.containsKey(words.get(i)))
@@ -202,13 +203,19 @@ public class IssueController {
         PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
                 (a, b) -> Objects.equals(a.getValue(), b.getValue()) ? b.getKey().compareTo(a.getKey()) : a.getValue() - b.getValue()
         );
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            pq.offer(entry);
+        for (Map.Entry<String, Integer> s : map.entrySet()) {
+            if (s.getKey().equals("an") || s.getKey().equals("a") || s.getKey().equals("some") || s.getKey().equals("to") || s.getKey().equals("for") || s.getKey().equals("") || s.getKey().equals("in") || s.getKey().equals("on") || s.getKey().equals("，") || s.getKey().equals("，，") || s.getKey().equals("is") || s.getKey().equals("are") || s.getKey().equals("not") || s.getKey().equals(",") || s.getKey().equals("of") || s.getKey().equals("the") || s.getKey().equals("-") || s.getKey().equals("and")) {
+                continue;
+            } else {
+                pq.offer(s);
+            }
             if (pq.size() > k)
                 pq.poll();
         }
-        while (!pq.isEmpty())
-            result.add(0, pq.poll().getKey());
+        while (!pq.isEmpty()) {
+            result.add(0, new ChartVO(pq.peek().getKey(), Long.parseLong(String.valueOf(pq.peek().getValue()))));
+            pq.poll();
+        }
         return result;
     }
 

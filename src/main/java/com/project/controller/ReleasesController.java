@@ -5,16 +5,12 @@ import com.project.entity.Commit;
 import com.project.entity.Releases;
 import com.project.service.CommitService;
 import com.project.service.ReleasesService;
+import com.project.vo.ChartVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +26,7 @@ import java.util.stream.Collectors;
 public class ReleasesController {
     @Autowired
     private ReleasesService releasesService;
+
     @Autowired
     private CommitService commitService;
 
@@ -82,6 +79,24 @@ public class ReleasesController {
             add(count_evening); // 18-24
         }};
         return ans;
+    }
+
+    @GetMapping("commitDistribution/{time}")
+    public List<ChartVO> commitDistribution(@PathVariable String time) {
+        List<ChartVO> res = new ArrayList<>();
+        List<Long> timeCount = commitTime();
+
+        if (time.equals("week")) {
+            res.add(new ChartVO("weekday", timeCount.get(0)));
+            res.add(new ChartVO("weekend", timeCount.get(1)));
+        } else {
+            res.add(new ChartVO("midnight", timeCount.get(2)));
+            res.add(new ChartVO("morning", timeCount.get(3)));
+            res.add(new ChartVO("afternoon", timeCount.get(4)));
+            res.add(new ChartVO("evening", timeCount.get(5)));
+        }
+
+        return res;
     }
 
     @GetMapping("/commitTime/weekday")

@@ -76,4 +76,14 @@ Install the java environment on the server, configure the data on the server, ha
 
 ### Insight
 
-To be continued...
+This is our front-end visualization page for the PKUFlyingPig/cs-self-learning repository. We used appsmith as the front-end framework for our project. Appsmith is mainly used to build admin panels, internal tools, dashboards, etc. It allows dragging and dropping UI components to build pages that can create internal applications in no time by connecting to any API, database or GraphQL source and writing logic using JavaScript language.
+
+APPsmith can use 15+ types of DBs, REST APIs or GraphQL as data sources, while supporting multiple authentication protocols such as OAuth 2.0. By configuring the data source and writing query statements corresponding to the data source, you can add, delete, change and check the underlying data.
+
+<img decoding="async" src="https://github.com/Evens1sen/Github-Visualization/blob/main/frontend_1.png" style="zoom:50%;" />
+
+<img decoding="async" src="https://github.com/Evens1sen/Github-Visualization/blob/main/frontend_2.png" style="zoom:50%;" />
+
+By visualizing the crawled github repository, we can see that there are 83 contributors in this repository, and as of 20 December 2022, there are 49 open issues, 204 close issues, and only 1 release so far. The distribution time of all commissions is mainly in the afternoon, 37.88%, and only 4.04% in the evening, 18~24. In all titles and topics, there are some hot words like "lab", "add", "update", "book", "course".
+
+As a learning repository, these buzzwords are very appropriate for the situation.

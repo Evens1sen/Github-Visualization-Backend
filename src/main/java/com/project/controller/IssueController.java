@@ -28,8 +28,8 @@ public class IssueController {
     @Autowired
     private IssueService issueService;
 
-    private double variance(List<Issue> issueList, String tmp) {
-        double mean = Double.parseDouble(tmp.substring(1,tmp.length()-2));
+    private double variance(List<Issue> issueList, double mean) {
+//        double mean = Double.parseDouble(tmp.substring(1, tmp.length() - 2));
         double ans = 0;
         for (Issue i : issueList) {
             ans += Math.pow(i.getIssueTime() - mean, 2);
@@ -50,63 +50,93 @@ public class IssueController {
 
     @GetMapping("/maxTime")
     public String maxTime() {
-        return issueService.list().stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMax() + " s";
+        return convertTime(issueService.list().stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getMax());
     }
 
     @GetMapping("/minTime")
     public String minTime() {
-        return issueService.list().stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMin() + " s";
+        return convertTime(issueService.list().stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getMin());
     }
 
     @GetMapping("/avgTime")
     public String avgTime() {
-        return issueService.list().stream().mapToLong(Issue::getIssueTime).summaryStatistics().getAverage() +"";
+        return convertTime((long) Math.floor(issueService.list().stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getAverage()));
     }
 
     @GetMapping("varTime")
     public double varTime() {
-        return variance(issueService.list(), avgTime());
+        return variance(issueService.list(),
+                issueService.list()
+                        .stream()
+                        .mapToLong(Issue::getIssueTime)
+                        .summaryStatistics().getAverage());
     }
 
     @GetMapping("/maxClosedTime")
     public String maxClosedTime() {
-        return issueService.list(new QueryWrapper<Issue>().eq("state", "closed")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMax()+ " s";
+        return convertTime(issueService
+                .list(new QueryWrapper<Issue>().eq("state", "closed")).stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getMax());
     }
 
     @GetMapping("/minClosedTime")
     public String minClosedTime() {
-        return issueService.list(new QueryWrapper<Issue>().eq("state", "closed")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMin()+ " s";
+        return convertTime(issueService
+                .list(new QueryWrapper<Issue>().eq("state", "closed")).stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getMin());
     }
 
     @GetMapping("/avgClosedTime")
     public String avgClosedTime() {
-        return issueService.list(new QueryWrapper<Issue>().eq("state", "closed")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getAverage()+ " s";
+        return convertTime((long) Math.floor(issueService
+                .list(new QueryWrapper<Issue>().eq("state", "closed")).stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getAverage()));
     }
 
-    @GetMapping("/varClosedTime")
-    public double varClosedTime() {
-        return variance(issueService.list(new QueryWrapper<Issue>().eq("state", "closed")), avgTime());
-    }
+//    @Deprecated
+//    @GetMapping("/varClosedTime")
+//    public double varClosedTime() {
+//        return variance(issueService.list(new QueryWrapper<Issue>().eq("state", "closed")), avgTime());
+//    }
 
     @GetMapping("/maxOpenTime")
     public String maxOpenTime() {
-        return issueService.list(new QueryWrapper<Issue>().eq("state", "open")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMax()+ " s";
+        return convertTime(issueService
+                .list(new QueryWrapper<Issue>().eq("state", "open")).stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getMax());
     }
 
     @GetMapping("/minOpenTime")
     public String minOpenTime() {
-        return issueService.list(new QueryWrapper<Issue>().eq("state", "open")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getMin()+ " s";
+        return convertTime(issueService
+                .list(new QueryWrapper<Issue>().eq("state", "open")).stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getMin());
     }
 
     @GetMapping("/avgOpenTime")
     public String avgOpenTime() {
-        return issueService.list(new QueryWrapper<Issue>().eq("state", "open")).stream().mapToLong(Issue::getIssueTime).summaryStatistics().getAverage()+ " s";
+        return convertTime((long) Math.floor(issueService
+                .list(new QueryWrapper<Issue>().eq("state", "open")).stream()
+                .mapToLong(Issue::getIssueTime)
+                .summaryStatistics().getAverage()));
     }
 
-    @GetMapping("/varOpenTime")
-    public double varOpenTime() {
-        return variance(issueService.list(new QueryWrapper<Issue>().eq("state", "open")), avgTime());
-    }
+//    @Deprecated
+//    @GetMapping("/varOpenTime")
+//    public double varOpenTime() {
+//        return variance(issueService.list(new QueryWrapper<Issue>().eq("state", "open")), avgTime());
+//    }
 
     @GetMapping("/findIssueById")
     public Issue findIssueById(@RequestParam int id) {
@@ -133,8 +163,8 @@ public class IssueController {
         List<String> titleList = findTitle();
         List<String> wordList = new ArrayList<>();
         for (String i : titleList) {
-            if(i!=null){
-                String[] arr = i.toLowerCase().replaceAll("[\u4e00-\u9fa5]+", "").replace("[","").replace("]","").split(" ");
+            if (i != null) {
+                String[] arr = i.toLowerCase().replaceAll("[\u4e00-\u9fa5]+", "").replace("[", "").replace("]", "").split(" ");
                 wordList.addAll(Arrays.asList(arr));
             }
         }
@@ -147,12 +177,12 @@ public class IssueController {
     }
 
     @GetMapping("/findHighFreqBody")
-    public List<String> findHighFreqBody(){
+    public List<String> findHighFreqBody() {
         List<String> bodyList = findBody();
         List<String> wordList = new ArrayList<>();
-        for(String i : bodyList){
-            if(i!=null){
-                String[] arr = i.toLowerCase().replaceAll("[\u4e00-\u9fa5]+", "").replace("[","").replace("]","").split(" ");
+        for (String i : bodyList) {
+            if (i != null) {
+                String[] arr = i.toLowerCase().replaceAll("[\u4e00-\u9fa5]+", "").replace("[", "").replace("]", "").split(" ");
                 wordList.addAll(Arrays.asList(arr));
             }
         }
@@ -180,6 +210,26 @@ public class IssueController {
         while (!pq.isEmpty())
             result.add(0, pq.poll().getKey());
         return result;
+    }
+
+    public String convertTime(long seconds) {
+        long hour = seconds / 3600;
+        seconds = seconds % 3600;
+        long min = seconds / 60;
+        seconds = seconds % 60;
+
+        StringBuilder res = new StringBuilder();
+        if (hour != 0) {
+            res.append(String.format("%d hour ", hour));
+        }
+        if (min != 0) {
+            res.append(String.format("%d min ", min));
+        }
+        if (seconds != 0) {
+            res.append(String.format("%d sec", seconds));
+        }
+
+        return res.toString();
     }
 }
 
